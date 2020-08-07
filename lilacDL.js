@@ -4,7 +4,7 @@
  * .lilacDL™️ (C) Lilac's Private File Hosting Server
  * Script made by MyPasswordIsWeak
  * Usage: 
- * node main.js ./file.lilacDL
+ * node . ./file.lilacDL
  * 
  */
 
