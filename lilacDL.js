@@ -13,16 +13,14 @@ const md5sum = function(d){var r = M(V(Y(X(d),8*d.length)));return r.toLowerCase
 const { readFileSync, unlinkSync, mkdirSync, existsSync } = require('fs');
 const download = require('./download.js');
 const args = process.argv.slice(2);
-let md5c = true;
 
 if(!args)
-    return console.log('No file selected bruh')
+    return console.log('No file selected bruh');
 
 if(!/^\..+\.lilacdl/i.test(args[0]))
     return console.log('Invalid file specified\nSyntax: node . ./file.lilacdl');
 
-if(args[1] === '--no-md5-check')
-    md5c = false;
+const flags = require('./flags.js')(args);
 
 // Read file and split on newlines
 const lilacDL = readFileSync(args[0], 'UTF-8')
@@ -90,54 +88,10 @@ if(!existsSync(basePath))
     mkdirSync(basePath);
 
 // Download part
-for(let i = 0; i < Files; ++i) {
+require('./downloadChain.js')(Files,links,basePath,fileTitle,flags,md5sum,download)
+    .then(function() {
+
+        //Combine files here bruh
+        console.log('Done downloading!');
     
-    let linksi = links[i];
-
-    console.log(`Started download for part ${linksi.part} from link`);
-    console.log(`${linksi.link}`);
-    console.log(`With expected md5 checksum of`);
-    console.log(`${linksi.md5}`);
-    console.log('-----------------------------------------------------------');
-
-    download(linksi.link, `${basePath}${fileTitle}.${linksi.part}`)
-        .then(res => {
-            if(res.status != '200') {
-              
-                unlinkSync(`${basePath}${fileTitle}.${linksi.part}`);
-                console.log(`Got error ${res.status} on ${linksi.link} with number ${linksi.part}`);
-                console.log('-----------------------------------------------------------');
-            
-            } else {
-
-                let md5 = '';
-
-                if(md5c)
-                    md5 = md5sum(readFileSync(`${basePath}${fileTitle}.${linksi.part}`,'binary'));
-                else
-                    md5 = linksi.md5;
-
-                if(md5.toLowerCase() !== linksi.md5.toLowerCase()) {
-                    
-                    console.log(`Downloaded number ${linksi.part} successfully with`);
-                    console.log(`Status code ${res.status} from the link`);
-                    console.log(`${linksi.link}`);
-                    console.log(`But the md5sum does not match the expected md5sum`);
-                    console.log(`Please redownload it from the link above`);
-                    console.log(`Expected: ${linksi.md5.toLowerCase()}`);
-                    console.log(`Got: ${md5.toLowerCase()}`);
-                    console.log('-----------------------------------------------------------');
-
-                } else {
-
-                    console.log(`Downloaded number ${linksi.part} successfully with`);
-                    console.log(`Status code ${res.status} from the link`);
-                    console.log(`${linksi.link}`);
-                    if(md5c) console.log(`MD5: ${md5}`);
-                    console.log('-----------------------------------------------------------');
-                
-                }
-
-            }
-        });
-}
+    });
