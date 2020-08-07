@@ -1,0 +1,16 @@
+{
+  "name": "lilacdl",
+  "version": "1.0.0",
+  "description": "A .lilacDL downloader",
+  "main": "lilacDL.js",
+  "scripts": {
+    "test": "echo bruh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "none"
+  },
+  "author": "MyPasswordIsWeak",
+  "license": "MIT",
+  "dependencies": {}
+}
