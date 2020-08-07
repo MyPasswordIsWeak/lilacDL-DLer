@@ -1,5 +1,8 @@
 
-const dl = function(Files,links,basePath,fileTitle,flags,md5sum,download) {
+const { readFileSync, unlinkSync, mkdirSync, existsSync } = require('fs');
+const download = require('./download.js');
+
+const dl = function(Files,links,basePath,fileTitle,flags,md5sum) {
 
     let finished = 0;
 
