@@ -91,7 +91,7 @@ if(!existsSync(basePath))
 // Download part
 require('./downloadChain.js')(Files,links,basePath,fileTitle,flags,md5sum)
     .then(errors => {
-
+        
         // Create error handler class
         const errorHandler = new ErrorHandler(errors,basePath,fileTitle,flags,md5sum);
       
