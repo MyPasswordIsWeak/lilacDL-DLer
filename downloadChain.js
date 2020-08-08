@@ -4,6 +4,7 @@ const download = require('./download.js');
 
 const dl = function(Files,links,basePath,fileTitle,flags,md5sum) {
 
+    let errors = new Array();
     let finished = 0;
 
     return new Promise(function(resolve,reject) {
@@ -25,9 +26,11 @@ const dl = function(Files,links,basePath,fileTitle,flags,md5sum) {
                         console.log(`Got error ${res.status} on ${linksi.link} with number ${linksi.part}`);
                         console.log('-----------------------------------------------------------');
                     
+                        errors.push(linksi);
+
                         ++finished;
                         if(finished == Files)
-                            resolve();
+                            resolve(errors);
 
                     } else {
         
@@ -61,7 +64,7 @@ const dl = function(Files,links,basePath,fileTitle,flags,md5sum) {
 
                         ++finished;
                         if(finished == Files)
-                            resolve();
+                            resolve(errors);
         
                     }
                 });
