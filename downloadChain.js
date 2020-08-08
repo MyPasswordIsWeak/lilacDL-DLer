@@ -43,14 +43,16 @@ const dl = function(Files,links,basePath,fileTitle,flags,md5sum) {
         
                         if(md5.toLowerCase() !== linksi.md5.toLowerCase()) {
                             
-                            console.log(`Downloaded number ${linksi.part} successfully with`);
+                            console.log(`Downloaded number ${linksi.part} with`);
                             console.log(`Status code ${res.status} from the link`);
                             console.log(`${linksi.link}`);
                             console.log(`But the md5sum does not match the expected md5sum`);
-                            console.log(`Please redownload it from the link above`);
+                            console.log(`The downloader will redownload it at the end`);
                             console.log(`Expected: ${linksi.md5.toLowerCase()}`);
                             console.log(`Got: ${md5.toLowerCase()}`);
                             console.log('-----------------------------------------------------------');
+
+                            errors.push(linksi);
         
                         } else {
         
