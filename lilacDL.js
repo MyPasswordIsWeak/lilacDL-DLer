@@ -13,6 +13,9 @@ const md5sum = function(d){var r = M(V(Y(X(d),8*d.length)));return r.toLowerCase
 const { readFileSync, mkdirSync, existsSync,appendFileSync, unlinkSync, renameSync, openSync, closeSync, rmdirSync } = require('fs');
 const ErrorHandler = require('./errors.js');
 
+//Start timer
+console.time('Took');
+
 const args = process.argv.slice(2);
 const flags = require('./flags.js')(args);
 
@@ -138,6 +141,9 @@ require('./downloadChain.js')(Files,links,basePath,fileTitle,flags,md5sum,false)
                     unlinkSync(`./${fileTitle}`);
                 }
             }
+
+            //End time
+            console.timeEnd('Took');
 
         })
        
