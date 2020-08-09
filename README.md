@@ -4,7 +4,7 @@ This node script dl's stuff thats in the .lilacDL format
 # LilacDL format
 The lilacDL format looks like this:
 ```
-# You can commment by begging a line with a #
+# You can commment by begining a line with a #
 # Meta
 Uploader: Person who uploaded the file, usually yourself
 Size: How big the file is
