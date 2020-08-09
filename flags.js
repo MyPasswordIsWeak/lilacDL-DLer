@@ -3,7 +3,8 @@ const parseFlags = function(args) {
 
     let flags = {
         md5cPart: true,
-        md5cFinal: true
+        md5cFinal: true,
+        joinFiles: true
     }
 
     for(let i = 0; i < args.length; ++i) {
@@ -13,6 +14,9 @@ const parseFlags = function(args) {
 
         if(args[i] === '--no-final-md5-check')
             flags.md5cFinal = false;
+            
+        if(args[i] === '--no-file-join')
+            flags.joinFiles = false;
 
     }
 
