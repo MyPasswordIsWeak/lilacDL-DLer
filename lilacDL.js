@@ -1,7 +1,7 @@
 
 /*
  *
- * .lilacDL™️ downloader
+ * .lilacDL™ downloader
  * Script made by MyPasswordIsWeak
  * Usage: 
  * node . ./file.lilacDL
@@ -14,17 +14,13 @@ const { readFileSync, mkdirSync, existsSync,appendFileSync, unlinkSync, renameSy
 const ErrorHandler = require('./errors.js');
 
 const args = process.argv.slice(2);
-
-if(!args[0])
-    return console.log('No file selected bruh');
-
-if(!/^(\.|[A-B]:(\\|\/))\.lilacdl$/i.test(args[0]))
-    return console.log('Invalid file specified\nSyntax: node . ./file.lilacdl');
-
 const flags = require('./flags.js')(args);
 
+if(!flags.path)
+    return console.log('No file selected bruh');
+
 // Read file and split on newlines
-const lilacDL = readFileSync(args[0], 'UTF-8')
+const lilacDL = readFileSync(flags.path, 'UTF-8')
     .split('\n');
 
 // Make variables
