@@ -19,7 +19,7 @@ if(!args[0])
     return console.log('No file selected bruh');
 
 if(!/\.lilacdl$/i.test(args[0]))
-    return console.log('Invalid file specified\nSyntax: node . ./file.lilacdl');
+    return console.log('Invalid file specified\nSyntax: lilacdl-(win/macos/linux) /path/to/file.lilacDL');
 
 const flags = require('./flags.js')(args);
 
