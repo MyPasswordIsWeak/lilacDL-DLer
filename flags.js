@@ -3,7 +3,7 @@ const parseFlags = function(args) {
 
     let flags = {
         md5cPart: true,
-        md5cFinal: true,
+        md5cFinal: false,
         joinFiles: true,
         path: undefined
     }

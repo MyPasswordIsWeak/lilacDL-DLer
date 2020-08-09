@@ -134,6 +134,7 @@ require('./downloadChain.js')(Files,links,basePath,fileTitle,flags,md5sum,false)
                     console.log(`Completed downloading ${fileTitle}!`);
                 } else {
                     console.log('An error has occured merging the files, please do it manually');
+                    console.log('Checksums do not match');
                     unlinkSync(`./${fileTitle}`);
                 }
             }
