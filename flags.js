@@ -19,7 +19,7 @@ const parseFlags = function(args) {
         if(args[i] === '--no-file-join' || args[i] === '-nfj')
             flags.joinFiles = false;
         
-        if(/^(\.|[A-B]:(\\|\/)).+\.lilacdl$/i.test(args[i]))
+        if(/^(\.|[A-Z]:(\\|\/)).+\.lilacdl$/i.test(args[i]))
             flags.path = args[i];
 
     }
