@@ -1,7 +1,7 @@
 
 /*
  *
- * .lilacDL™️ (C) Lilac's Private File Hosting Server
+ * .lilacDL™️ downloader
  * Script made by MyPasswordIsWeak
  * Usage: 
  * node . ./file.lilacDL
@@ -18,7 +18,7 @@ const args = process.argv.slice(2);
 if(!args[0])
     return console.log('No file selected bruh');
 
-if(!/\.lilacdl$/i.test(args[0]))
+if(!/^(\.|[A-B]:(\\|\/))\.lilacdl$/i.test(args[0]))
     return console.log('Invalid file specified\nSyntax: node . ./file.lilacdl');
 
 const flags = require('./flags.js')(args);
