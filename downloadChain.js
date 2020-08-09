@@ -2,46 +2,33 @@
 const { readFileSync, unlinkSync } = require('fs');
 const download = require('./download.js');
 
-const dl = function(Files,links,basePath,fileTitle,flags,md5sum) {
+const dl = function(Files,links,basePath,fileTitle,flags,md5sum,errorhandlerStatus) {
 
     let errors = new Array();
     let finished = 0;
 
     return new Promise(function(resolve,reject) {
         for(let i = 0; i < Files; ++i) {
-    
+
             let linksi = links[i];
         
             console.log(`Started download for part ${linksi.part} from link`);
             console.log(`${linksi.link}`);
             console.log(`With expected md5 checksum of`);
             console.log(`${linksi.md5}`);
+            if(errorhandlerStatus) console.log(`This download is managed by the errorHandler`);
             console.log('-----------------------------------------------------------');
         
             download(linksi.link, `${basePath}${fileTitle}.${linksi.part}`)
                 .then(res => {
+                    console.log(`${finished+1}/${Files}`)
                     if(res.status != '200') {
 
-                        if(res.status != '404') {
-
-                            unlinkSync(`${basePath}${fileTitle}.${linksi.part}`);
-                            console.log(`Got error ${res.status} on ${linksi.link} with number ${linksi.part}`);
-                            console.log('From the link');
-                            console.log(`${linksi.link}`);
-                            console.log('The program will try downloading it again at the end');
-                            console.log('-----------------------------------------------------------');
-                        
-                            errors.push(linksi);
-
-                        } else {
-                            unlinkSync(`${basePath}${fileTitle}.${linksi.part}`);
-                            console.log(`Got 404 error on ${linksi.link} with number ${linksi.part}`);
-                            console.log('This file most likely doesn\'t exist anymore, the program');
-                            console.log('Try to download it again, if you want to see for yourself');
-                            console.log('The link is here:');
-                            console.log(`${linksi.link}`);
-                            console.log('-----------------------------------------------------------');
-                        }
+                        unlinkSync(`${basePath}${fileTitle}.${linksi.part}`);
+                        console.log(`Got error ${res.status} on ${linksi.link} with number ${linksi.part}`);
+                        console.log('-----------------------------------------------------------');
+                    
+                        errors.push(linksi);
 
                         ++finished;
                         if(finished == Files)
@@ -84,21 +71,13 @@ const dl = function(Files,links,basePath,fileTitle,flags,md5sum) {
                             resolve(errors);
         
                     }
-                }).catch(err => {
-                    
-                    try {
-                        unlinkSync(`${basePath}${fileTitle}.${linksi.part}`);
-                    } catch(e) {}
-
-                    console.log(`A fatal error occured.`);
-                    console.log('From the link');
-                    console.log(`${linksi.link}`);
-                    console.log('With error');
-                    console.log(`${err.message}`);
-                    console.log('The program will try downloading it again at the end');
+                }).catch(e => { 
+                    console.log(`An error has occured: ${e.message}`);
                     console.log('-----------------------------------------------------------');
-                
                     errors.push(linksi);
+                    ++finished;
+                    if(finished == Files)
+                        resolve(errors);
                 });
             }
     })

@@ -1,9 +1,9 @@
 
-# Dirs
-DiscordStorage-lilacDL/
+# dirs
+tmp_*/
 lilacDLs/
-
-# Files
+DiscordStorage-lilacDL/
 *.lilacDL
 *.zip
 *.7z
+*.cia

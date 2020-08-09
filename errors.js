@@ -28,7 +28,7 @@ class ErrorHandler extends EventEmitter {
         console.log('Starting downloadChain ...');
         console.log('-----------------------------------------------------------');
 
-        downloadChain(this.errors.length,this.errors,this.basePath,this.fileTitle,this.flags,this.md5sum)
+        downloadChain(this.errors.length,this.errors,this.basePath,this.fileTitle,this.flags,this.md5sum,true)
             .then(errors => {
 
                 if(errors.length === 0)
