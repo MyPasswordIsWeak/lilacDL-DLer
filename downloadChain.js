@@ -22,11 +22,26 @@ const dl = function(Files,links,basePath,fileTitle,flags,md5sum) {
                 .then(res => {
                     if(res.status != '200') {
 
-                        unlinkSync(`${basePath}${fileTitle}.${linksi.part}`);
-                        console.log(`Got error ${res.status} on ${linksi.link} with number ${linksi.part}`);
-                        console.log('-----------------------------------------------------------');
-                    
-                        errors.push(linksi);
+                        if(res.status != '404') {
+
+                            unlinkSync(`${basePath}${fileTitle}.${linksi.part}`);
+                            console.log(`Got error ${res.status} on ${linksi.link} with number ${linksi.part}`);
+                            console.log('From the link');
+                            console.log(`${linksi.link}`);
+                            console.log('The program will try downloading it again at the end');
+                            console.log('-----------------------------------------------------------');
+                        
+                            errors.push(linksi);
+
+                        } else {
+                            unlinkSync(`${basePath}${fileTitle}.${linksi.part}`);
+                            console.log(`Got 404 error on ${linksi.link} with number ${linksi.part}`);
+                            console.log('This file most likely doesn\'t exist anymore, the program');
+                            console.log('Try to download it again, if you want to see for yourself');
+                            console.log('The link is here:');
+                            console.log(`${linksi.link}`);
+                            console.log('-----------------------------------------------------------');
+                        }
 
                         ++finished;
                         if(finished == Files)

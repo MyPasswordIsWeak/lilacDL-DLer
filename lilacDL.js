@@ -1,7 +1,7 @@
 
 /*
  *
- * .lilacDL™️ (C) Lilac's Private File Hosting Server
+ * .lilacDL™️ (C) Lilac's Private File Hosting Server (This is a joke i don't have copyright on the term i just tought it was funny)
  * Script made by MyPasswordIsWeak
  * Usage: 
  * node . ./file.lilacDL
@@ -34,6 +34,7 @@ let Size = '';
 let Files = '';
 let Title = '';
 let fileTitle = '';
+let finalMD5 = '';
 
 // Parse things
 for(let i = 0; i < lilacDL.length; ++i) {
@@ -45,17 +46,21 @@ for(let i = 0; i < lilacDL.length; ++i) {
     if(line.startsWith('#'))
         continue;
 
-    // See if author, assigning variable is ugly, i dont care
-    if(/^Uploader: /i.test(line))
-        Uploader = [ ...line ].splice(10).join('').replace('\r','');
-
     // See if size, assigning variable is ugly, i dont care
     if(/^Size: /i.test(line))
         Size = [ ...line ].splice(6).join('').replace('\r','');
+    
+        // See if tit;e, assigning variable is ugly, i dont care
+    if(/MD5: /i.test(line))
+        finalMD5 = [ ...line ].splice(5).join('').replace('\r','');
 
-    // See if tit;e, assigning variable is ugly, i dont care
+    // See if title, assigning variable is ugly, i dont care
     if(/Title: /i.test(line))
         Title = [ ...line ].splice(7).join('').replace('\r','');
+
+    // See if author, assigning variable is ugly, i dont care
+    if(/^Uploader: /i.test(line))
+        Uploader = [ ...line ].splice(10).join('').replace('\r','');
 
     // We found dem files
     if(/^\d+/.test(line)) {
@@ -114,11 +119,25 @@ require('./downloadChain.js')(Files,links,basePath,fileTitle,flags,md5sum)
                 console.log(`Done ${i+1} out of ${Files}`);
                 console.log('-----------------------------------------------------------');
             }
-            
-            rmdirSync(basePath);
 
-            console.log(`Completed downloading ${fileTitle}!`);
-
+            if(flags.md5cFinal) {
+                
+                console.log('Checking final MD5');
+                console.log(`Expected: ${finalMD5}`);
+                console.log('-----------------------------------------------------------');
+                
+                const gottenMD5 = md5sum(readFileSync(`./${fileTitle}`,'binary'));
+                
+                if(gottenMD5 === finalMD5) {
+                    console.log('Succes! All files were downloaded successfully!');
+                    rmdirSync(basePath);
+                } else {
+                    console.log('Fail! Combine all downloaded parts manually!');
+                }
+            } else {
+                console.log('Succes! All files were downloaded successfully!');
+                rmdirSync(basePath);
+            }
         })
        
         // Start errorHandler

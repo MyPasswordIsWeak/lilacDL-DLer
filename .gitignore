@@ -1,0 +1,9 @@
+
+# Dirs
+DiscordStorage-lilacDL/
+lilacDLs/
+
+# Files
+*.lilacDL
+*.zip
+*.7z
