@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A .lilacDL downloader",
   "main": "lilacDL.js",
+  "bin": "lilacDL.js",
   "scripts": {
     "test": "echo bruh"
   },
