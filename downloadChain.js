@@ -84,6 +84,21 @@ const dl = function(Files,links,basePath,fileTitle,flags,md5sum) {
                             resolve(errors);
         
                     }
+                }).catch(err => {
+                    
+                    try {
+                        unlinkSync(`${basePath}${fileTitle}.${linksi.part}`);
+                    } catch(e) {}
+
+                    console.log(`A fatal error occured.`);
+                    console.log('From the link');
+                    console.log(`${linksi.link}`);
+                    console.log('With error');
+                    console.log(`${err.message}`);
+                    console.log('The program will try downloading it again at the end');
+                    console.log('-----------------------------------------------------------');
+                
+                    errors.push(linksi);
                 });
             }
     })

@@ -25,7 +25,7 @@ async function download(url, filePath) {
         }
 
         if (response.statusCode !== 200) {
-          reject(new Error(`Failed to get (${response.statusCode})`));
+          resolve(({ status: statusCodeReal }));
           return;
         }
   
@@ -41,11 +41,11 @@ async function download(url, filePath) {
       file.on('finish', () => resolve({ fileinfo: fileInfo, status: statusCodeReal}));
   
       request.on('error', err => {
-        fs.unlink(filePath, () => reject(err));
+        fs.unlink(filePath, () => resolve({ status: statusCodeReal, err: err }));
       });
   
       file.on('error', err => {
-        fs.unlink(filePath, () => reject(err));
+        fs.unlink(filePath, () => resolve({ status: statusCodeReal, err: err }));
       });
   
       request.end();

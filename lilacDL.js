@@ -113,8 +113,7 @@ require('./downloadChain.js')(Files,links,basePath,fileTitle,flags,md5sum)
             for(let i = 0; i < Files; ++i) {
                 
                 appendFileSync(`./${fileTitle}`, readFileSync(`${basePath}${fileTitle}.${links[i].part}`,'binary'), 'binary');
-                unlinkSync(`${basePath}${fileTitle}.${links[i].part}`);
-                
+
                 console.log(`Appended part ${links[i].part}`);
                 console.log(`Done ${i+1} out of ${Files}`);
                 console.log('-----------------------------------------------------------');
@@ -130,12 +129,17 @@ require('./downloadChain.js')(Files,links,basePath,fileTitle,flags,md5sum)
                 
                 if(gottenMD5 === finalMD5) {
                     console.log('Succes! All files were downloaded successfully!');
+                    for(let i = 0; i < Files; ++i)
+                        unlinkSync(`${basePath}${fileTitle}.${links[i].part}`);
                     rmdirSync(basePath);
                 } else {
                     console.log('Fail! Combine all downloaded parts manually!');
+                    unlinkSync(`./${fileTitle}`);
                 }
             } else {
                 console.log('Succes! All files were downloaded successfully!');
+                for(let i = 0; i < Files; ++i)
+                    unlinkSync(`${basePath}${fileTitle}.${links[i].part}`);
                 rmdirSync(basePath);
             }
         })
