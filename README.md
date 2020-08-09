@@ -19,3 +19,11 @@ extension: link * md5sum
 
 # Usage
 node . ./path/to/lilacDL/file.lilacDL
+
+# Flags
+
+--no-part-md5-check - Doesn't check the md5sums of individueal files, not a recommended flag
+
+--no-final-md5-check - Doesn't check the md5sum of the final joined file, probably not necessairy if all part files are fine
+
+--no-file-join - Doesn't join the files at the end, use if you are using a different file than just splitted files
