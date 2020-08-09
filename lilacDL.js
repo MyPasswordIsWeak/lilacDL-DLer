@@ -15,10 +15,10 @@ const ErrorHandler = require('./errors.js');
 
 const args = process.argv.slice(2);
 
-if(!args)
+if(!args[0])
     return console.log('No file selected bruh');
 
-if(!/^\..+\.lilacdl/i.test(args[0]))
+if(!/\.lilacdl$/i.test(args[0]))
     return console.log('Invalid file specified\nSyntax: node . ./file.lilacdl');
 
 const flags = require('./flags.js')(args);
@@ -121,7 +121,12 @@ require('./downloadChain.js')(Files,links,basePath,fileTitle,flags,md5sum,false)
                     console.log('-----------------------------------------------------------');
                 }
                 
-                const md5sumAppended = md5sum(readFileSync(`./${fileTitle}`,'binary'));
+                let md5sumAppended = '';
+
+                if(flags.md5cFinal)
+                    md5sumAppended = md5sum(readFileSync(`./${fileTitle}`,'binary'));
+                else
+                    md5sumAppended = md5Comp;
 
                 if(md5sumAppended.toLowerCase() === md5Comp.toLowerCase()) {
 
