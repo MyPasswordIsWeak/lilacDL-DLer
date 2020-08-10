@@ -27,3 +27,5 @@ node . ./path/to/lilacDL/file.lilacDL
 --final-md5-check OR -fc | Check the md5sum of the final joined file, dont do this on files bigger than ~500mb
 
 --no-file-join OR -nfj | Doesn't join the files at the end, use if you are using a different file than just splitted files
+
+--connections=NUMBER | Set the max amount of connections, default is 10

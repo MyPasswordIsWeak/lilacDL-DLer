@@ -5,7 +5,8 @@ const parseFlags = function(args) {
         md5cPart: true,
         md5cFinal: false,
         joinFiles: true,
-        path: undefined
+        path: undefined,
+        maxSimul: 10
     }
 
     for(let i = 0; i < args.length; ++i) {
@@ -21,6 +22,12 @@ const parseFlags = function(args) {
         
         if(/^(\.|[A-Z]:(\\|\/)).+\.lilacdl$/i.test(args[i]))
             flags.path = args[i];
+
+        if(/^--connections=\d+$/.test(args[i])) {
+            const num = parseInt(args[i].replace('--connections=',''));
+            if(num > 0) flags.maxSimul = num;   
+        }
+
 
     }
 

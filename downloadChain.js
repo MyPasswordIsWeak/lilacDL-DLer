@@ -1,17 +1,43 @@
 
 const { readFileSync, unlinkSync } = require('fs');
 const download = require('./download.js');
+const { EventEmitter } = require('events');
+
+
+class DownloadManager extends EventEmitter {
+
+    constructor(flags) {
+        super();
+        this.max = flags.maxSimul;
+        this.count = this.max+1;
+    }
+
+    init() {
+        for(let i = 0; i < this.count; ++i) {
+            this.emit(i);
+        }
+    }
+
+    giveReady() {
+        this.emit(this.count);
+        ++this.count;
+    }
+
+}
 
 const dl = function(Files,links,basePath,fileTitle,flags,md5sum,errorhandlerStatus) {
 
+    let manager = new DownloadManager(flags);
     let errors = new Array();
     let finished = 0;
 
     return new Promise(function(resolve,reject) {
         for(let i = 0; i < Files; ++i) {
-
+        
             let linksi = links[i];
         
+            manager.once(i, function() {
+
             console.log(`Started download for part ${linksi.part} from link`);
             console.log(`${linksi.link}`);
             console.log(`With expected md5 checksum of`);
@@ -21,6 +47,7 @@ const dl = function(Files,links,basePath,fileTitle,flags,md5sum,errorhandlerStat
         
             download(linksi.link, `${basePath}${fileTitle}.${linksi.part}`)
                 .then(res => {
+                    manager.giveReady();
                     console.log(`${finished+1}/${Files}`)
                     if(res.status != '200') {
 
@@ -80,6 +107,8 @@ const dl = function(Files,links,basePath,fileTitle,flags,md5sum,errorhandlerStat
                         resolve(errors);
                 });
             }
+        )}
+        manager.init();
     })
 }
 
