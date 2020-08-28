@@ -2,9 +2,10 @@
 const downloadChain = require('./downloadChain');
 const { EventEmitter } = require('events');
 
+
 class ErrorHandler extends EventEmitter {
 
-    constructor(errors,basePath,fileTitle,flags,md5sum) {
+    constructor(errors,basePath,fileTitle,flags) {
 
         // For this.emit();
         super();
@@ -14,7 +15,6 @@ class ErrorHandler extends EventEmitter {
         this.fileTitle = fileTitle;
         this.flags = flags;
         this.errors = errors;
-        this.md5sum = md5sum;
 
     }
 
@@ -28,13 +28,13 @@ class ErrorHandler extends EventEmitter {
         console.log('Starting downloadChain ...');
         console.log('-----------------------------------------------------------');
 
-        downloadChain(this.errors.length,this.errors,this.basePath,this.fileTitle,this.flags,this.md5sum,true)
+        downloadChain(this.errors.length,this.errors,this.basePath,this.fileTitle,this.flags,true)
             .then(errors => {
 
                 if(errors.length === 0)
                     return this.emit('done');
 
-                const newEvent = new ErrorHandler(errors,this.basePath,this.fileTitle,this.flags,this.md5sum);
+                const newEvent = new ErrorHandler(errors,this.basePath,this.fileTitle,this.flags);
 
                 newEvent.once('done', function() { this.emit('done') });
 

@@ -1,6 +1,7 @@
 
 const fs = require('fs');
 const https = require('https');
+const http = require('http');
 
 let statusCodeReal = '';
 
@@ -20,12 +21,8 @@ async function download(url, filePath) {
 
         statusCodeReal = response.statusCode;
 
-        if (response.statusCode === 404) {
-          resolve({ status: statusCodeReal });
-        }
-
         if (response.statusCode !== 200) {
-          reject(new Error(`Failed to get (${response.statusCode})`));
+          reject({ errors: new Error(`Failed to get (${response.statusCode})`), status: statusCodeReal });
           return;
         }
   
@@ -41,11 +38,11 @@ async function download(url, filePath) {
       file.on('finish', () => resolve({ fileinfo: fileInfo, status: statusCodeReal}));
   
       request.on('error', err => {
-        fs.unlink(filePath, () => reject(err));
+        fs.unlink(filePath, () => reject({errors: err, status: statusCodeReal}));
       });
   
       file.on('error', err => {
-        fs.unlink(filePath, () => reject(err));
+        fs.unlink(filePath, () => reject({errors: err, status: statusCodeReal}));
       });
   
       request.end();

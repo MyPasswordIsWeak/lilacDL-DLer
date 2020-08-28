@@ -1,6 +1,7 @@
 
 const { readFileSync, unlinkSync } = require('fs');
 const download = require('./download.js');
+const md5sum = require('./md5sum.js');
 const { EventEmitter } = require('events');
 
 
@@ -8,8 +9,7 @@ class DownloadManager extends EventEmitter {
 
     constructor(flags) {
         super();
-        this.max = flags.maxSimul;
-        this.count = this.max+1;
+        this.count = flags.maxSimul;
     }
 
     init() {
@@ -25,14 +25,16 @@ class DownloadManager extends EventEmitter {
 
 }
 
-const dl = function(Files,links,basePath,fileTitle,flags,md5sum,errorhandlerStatus) {
+const dl = function(links,basePath,fileTitle,flags,errorhandlerStatus) {
 
     let manager = new DownloadManager(flags);
     let errors = new Array();
     let finished = 0;
 
+    const tLength = links.length;
+
     return new Promise(function(resolve,reject) {
-        for(let i = 0; i < Files; ++i) {
+        for(let i = 0; i < tLength; ++i) {
         
             let linksi = links[i];
         
@@ -48,7 +50,7 @@ const dl = function(Files,links,basePath,fileTitle,flags,md5sum,errorhandlerStat
             download(linksi.link, `${basePath}${fileTitle}.${linksi.part}`)
                 .then(res => {
                     manager.giveReady();
-                    console.log(`${finished+1}/${Files}`)
+                    console.log(`${finished+1}/${tLength}`)
                     if(res.status != '200') {
 
                         unlinkSync(`${basePath}${fileTitle}.${linksi.part}`);
@@ -58,7 +60,7 @@ const dl = function(Files,links,basePath,fileTitle,flags,md5sum,errorhandlerStat
                         errors.push(linksi);
 
                         ++finished;
-                        if(finished == Files)
+                        if(finished == tLength)
                             resolve(errors);
 
                     } else {
@@ -94,7 +96,7 @@ const dl = function(Files,links,basePath,fileTitle,flags,md5sum,errorhandlerStat
                         }
 
                         ++finished;
-                        if(finished == Files)
+                        if(finished == tLength)
                             resolve(errors);
         
                     }
@@ -103,7 +105,7 @@ const dl = function(Files,links,basePath,fileTitle,flags,md5sum,errorhandlerStat
                     console.log('-----------------------------------------------------------');
                     errors.push(linksi);
                     ++finished;
-                    if(finished == Files)
+                    if(finished == tLength)
                         resolve(errors);
                 });
             }

@@ -2,8 +2,8 @@
   "name": "lilacdl",
   "version": "1.0.0",
   "description": "A .lilacDL downloader",
-  "main": "lilacDL.js",
-  "bin": "lilacDL.js",
+  "main": "index.js",
+  "bin": "index.js",
   "scripts": {
     "test": "echo bruh"
   },
@@ -13,5 +13,7 @@
   },
   "author": "MyPasswordIsWeak",
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  }
 }

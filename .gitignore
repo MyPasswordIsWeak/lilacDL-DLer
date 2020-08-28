@@ -1,8 +1,14 @@
 
-# dirs
-tmp_*/
-lilacDLs/
-DiscordStorage-lilacDL/
+# Userdata folder
+data/
+
+# Modules
+node_modules/
+
+# Output that pkg gives
+lilacdl-*
+
+# Filetypes
 *.lilacDL
 *.zip
 *.7z
