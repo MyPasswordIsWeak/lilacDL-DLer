@@ -6,7 +6,7 @@
  *  {
  *      "name":"<repo name>",
  *      "desc":"<repo description>",
- *      "adress":"<undefined if its a local repo and the url if its an online repo>"
+ *      "adress":"<local if its a local repo and the url if its an online repo>"
  *  }
  * 
  **/
@@ -20,7 +20,7 @@
  *      "repo": [
  *          {
  *              "name":"<name by which an item gets indexed>",
- *              "desc":"<description of item",
+ *              "desc":"<description of item>",
  *              "url":"<url to lilacDL>",
  *              "size":"<filesize>"
  *          }

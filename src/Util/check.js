@@ -1,6 +1,6 @@
 
-const { requiredFolders } = require('./constants.js');
-const { existsSync, mkdirSync } = require('fs');
+const { requiredFolders, requiredFiles } = require('./constants.js');
+const { existsSync, mkdirSync, writeFileSync } = require('fs');
 
 // Checks if every value is present
 
@@ -68,10 +68,14 @@ module.exports = function(mode, obj) {
                 if(!existsSync(requiredFolders[i]))
                     mkdirSync(requiredFolders[i]);
             }
+            
+            for(let i = 0; i < requiredFiles.length; ++i) {
+            	if(!existsSync(requiredFiles[i].path))
+            		writeFileSync(requiredFiles[i].path, requiredFiles[i].cont, 'utf-8');
+            }
 
             break;
 
-    }
-
+        }
 
 }

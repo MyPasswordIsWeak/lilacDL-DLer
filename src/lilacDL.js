@@ -4,7 +4,7 @@
  * .lilacDL™ downloader
  * Script made by MyPasswordIsWeak
  * Usage: 
- * node . ./file.lilacDL
+ * node . download ./file.lilacDL
  * 
  */
 
