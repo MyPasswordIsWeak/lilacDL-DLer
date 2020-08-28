@@ -1,25 +1,23 @@
 
 // pkg + fs is evil
 const path = require('path');
-const dot = path.resolve(__dirname, '../../');
+const dot = path.join(__dirname, '../../');
 
 module.exports = {
     requiredFolders: [
-        `${dot}/data`,
-        `${dot}/data/.storage`,
-        `${dot}/data/.storage/.cache`,
-        `${dot}/data/downloads`,
-        `${dot}/data/temp`
+        `${dot}/.data`,
+        `${dot}/.data/cache`,
+        `${dot}/.data/temp`
     ],
     requiredFiles: [
     	{ 
-    		path: `${dot}/data/.storage/repos.json`,
+    		path: `${dot}/.data/repos.json`,
     		cont: '{ }'
     	}
     ],
-    reposPath: `${dot}/data/.storage/repos.json`,
-    tempPath: `${dot}/data/temp`,
-    downloadsPath: `${dot}/data/downloads`,
-    cachePath: `${dot}/data/.storage/.cache`,
+    reposPath: `${dot}/.data/repos.json`,
+    tempPath: `${dot}/.data/temp`,
+    downloadsPath: `.`,   // Here we want to download to the path the script is ran from, not the script dir
+    cachePath: `${dot}/.data/cache`,
     line: '-----------------------------------------------------------'
 }

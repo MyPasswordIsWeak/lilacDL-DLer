@@ -1,6 +1,6 @@
 
 # Userdata folder
-data/
+.data/
 
 # Modules
 node_modules/
