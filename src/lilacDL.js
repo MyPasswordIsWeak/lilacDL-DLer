@@ -8,11 +8,11 @@
  * 
  */
 
-const { readFileSync, mkdirSync, existsSync,appendFileSync, unlinkSync, openSync, closeSync, rmdirSync } = require('fs');
-const { tempPath, donwloadsPath, line } = require('./Util/constants.js');
+const { readFileSync, mkdirSync, existsSync, appendFileSync, unlinkSync, openSync, closeSync, rmdirSync, renameSync } = require('fs');
+const { tempPath, downloadsPath, line } = require('./Util/constants.js');
 const downloadChain = require('./Util/downloadChain.js');
 const ErrorHandler = require('./Util/errors.js');
-const { downloadsPath } = require('./Util/constants.js');
+
 
 module.exports = function(args, flags, cont) {
 
@@ -87,7 +87,7 @@ module.exports = function(args, flags, cont) {
     
 
     fileTitle = fileTitle.replace('\r','');
-    const basePath = `${tempPath}/${fileTitle}/`;
+    const basePath = `${tempPath}/${fileTitle}`;
 
     if(!existsSync(basePath)) 
         mkdirSync(basePath);
@@ -142,6 +142,9 @@ module.exports = function(args, flags, cont) {
                         console.log('Checksums do not match');
                         unlinkSync(fileLocation);
                     }
+                } else {
+                    // Move temp directory to directory script is ran from
+                    renameSync(basePath, `${downloadsPath}/${fileTitle}`);
                 }
 
                 //End time

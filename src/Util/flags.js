@@ -16,6 +16,9 @@ const parseFlags = function(args) {
         // Flags for fetch
         selectedNum: undefined,
 
+        // Flags for list
+        repo: undefined,
+
         // General flags
         path: undefined,
         url: undefined
@@ -51,6 +54,9 @@ const parseFlags = function(args) {
             const num = parseInt(args[i].replace('--select=',''));
             if(num >= 0) flags.selectedNum = num;   
         }
+
+        if(/^--repo=.+$/.test(args[i]))
+            flags.repo = args[i].replace('--repo=', '');
 
         // Damn long regex
         if(/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/.test(args[i]))

@@ -4,5 +4,7 @@ module.exports = {
     download: require('./lilacDL.js'),
     update: require('./update-repos.js'),
     add: require('./add-repo.js').run,
-    fetch: require('./fetch-file')
+    fetch: require('./fetch-file'),
+    help: require('./help.js'),
+    list: require('./list-files.js')
 }

@@ -39,6 +39,16 @@ switch(action) {
         index.fetch(args, flags);
         break;
 
+    case 'help':
+
+        index.help(args, flags);
+        break;
+
+    case 'list':
+
+        index.list(args, flags);
+        break;
+
     default:
 
         console.log(`Action '${action}' is not a valid action.`);

@@ -5,9 +5,6 @@
 # Modules
 node_modules/
 
-# Output that pkg gives
-lilacdl-*
-
 # Filetypes
 *.lilacDL
 *.zip

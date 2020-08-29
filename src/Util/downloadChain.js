@@ -47,13 +47,13 @@ const dl = function(links,basePath,fileTitle,flags,errorhandlerStatus) {
             if(errorhandlerStatus) console.log(`This download is managed by the errorHandler`);
             console.log('-----------------------------------------------------------');
         
-            download(linksi.link, `${basePath}${fileTitle}.${linksi.part}`)
+            download(linksi.link, `${basePath}/${fileTitle}.${linksi.part}`)
                 .then(res => {
                     manager.giveReady();
                     console.log(`${finished+1}/${tLength}`)
                     if(res.status != '200') {
 
-                        unlinkSync(`${basePath}${fileTitle}.${linksi.part}`);
+                        unlinkSync(`${basePath}/${fileTitle}.${linksi.part}`);
                         console.log(`Got error ${res.status} on ${linksi.link} with number ${linksi.part}`);
                         console.log('-----------------------------------------------------------');
                     
@@ -68,7 +68,7 @@ const dl = function(links,basePath,fileTitle,flags,errorhandlerStatus) {
                         let md5 = '';
         
                         if(flags.md5cPart)
-                            md5 = md5sum(readFileSync(`${basePath}${fileTitle}.${linksi.part}`,'binary'));
+                            md5 = md5sum(readFileSync(`${basePath}/${fileTitle}.${linksi.part}`,'binary'));
                         else
                             md5 = linksi.md5;
         
