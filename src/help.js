@@ -5,7 +5,7 @@ function print(text) {
     console.log(text)
 }
 
-// I could probably improve this somehow
+// I could probably improve this somehow, maybe put everything in an array and print that?
 module.exports = function(args, flags) {
 
     print('[ Welcome to lilacdl ]');
