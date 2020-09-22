@@ -115,7 +115,7 @@ module.exports = function(args, flags, cont) {
 
                     for(let i = 0; i < Files; ++i) {
                         
-                        appendFileSync(fileLocation, readFileSync(`${basePath}${fileTitle}.${links[i].part}`,'binary'), 'binary');
+                        appendFileSync(fileLocation, readFileSync(`${basePath}/${fileTitle}.${links[i].part}`,'binary'), 'binary');
                         
                         console.log(`Appended part ${links[i].part}`);
                         console.log(`Done ${i+1} out of ${Files}`);
@@ -133,7 +133,7 @@ module.exports = function(args, flags, cont) {
 
                         // Cleanup
                         for(let i = 0; i < Files; ++i)
-                            unlinkSync(`${basePath}${fileTitle}.${links[i].part}`);
+                            unlinkSync(`${basePath}/${fileTitle}.${links[i].part}`);
                         rmdirSync(basePath);
 
                         console.log(`Completed downloading ${fileTitle}!`);
