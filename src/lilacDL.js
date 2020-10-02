@@ -65,7 +65,7 @@ module.exports = function(args, flags, cont) {
 
             const number = line.match(/^\d+/)[0];
             const lineSplit = line.replace(/(^\d+: |\r)/g,'').split(' * ');
-            const link = lineSplit[0];
+            const link = encodeURI(lineSplit[0]);
             const md5 = lineSplit[1];
 
             links.push({ link: link, part: number, md5: md5 });
