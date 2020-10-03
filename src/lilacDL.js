@@ -10,6 +10,7 @@
 
 const { readFileSync, mkdirSync, existsSync, appendFileSync, unlinkSync, openSync, closeSync, rmdirSync, renameSync } = require('fs');
 const { tempPath, downloadsPath, line } = require('./Util/constants.js');
+const cursor = require('./Util/cursor.js');
 const downloadChain = require('./Util/downloadChain.js');
 const ErrorHandler = require('./Util/errors.js');
 const md5sum = require('./Util/md5sum.js');
@@ -102,7 +103,8 @@ module.exports = function(args, flags, cont) {
         
             // Combine it when the once fires
             errorHandler.once('done', async () => { 
-                
+				
+				console.log(line);
                 console.log('Done downloading!');
 
                 if(flags.joinFiles) {
@@ -111,16 +113,16 @@ module.exports = function(args, flags, cont) {
                     console.log(line);
                     
                     const fileLocation = `${downloadsPath}/${fileTitle}`;
-                    const file = openSync(fileLocation,'w');
+                    const file = openSync(fileLocation, 'w');
                     closeSync(file);
 
                     for(let i = 0; i < Files; ++i) {
                         
                         appendFileSync(fileLocation, readFileSync(`${basePath}/${fileTitle}.${links[i].part}`,'binary'), 'binary');
-                        
-                        console.log(`Appended part ${links[i].part}`);
-                        console.log(`Done ${i+1} out of ${Files}`);
-                        console.log(line);
+						
+						links[i].index = i;
+						cursor.printMergeStatus(links[i], Files);
+
                     }
                     
                     let md5sumAppended = '';
@@ -130,6 +132,7 @@ module.exports = function(args, flags, cont) {
                     else
                         md5sumAppended = md5Comp;
 
+					console.log(line);
                     if(md5sumAppended.toLowerCase() === md5Comp.toLowerCase()) {
 
                         // Cleanup
