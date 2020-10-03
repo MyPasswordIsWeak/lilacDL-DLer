@@ -1,5 +1,5 @@
 
-const { readFileSync, unlinkSync } = require('fs');
+const { existsSync, unlinkSync } = require('fs');
 const download = require('./download.js');
 const md5sum = require('./md5sum.js');
 const { EventEmitter } = require('events');
@@ -25,6 +25,11 @@ class DownloadManager extends EventEmitter {
 
 }
 
+const deletIfExist = function(file) {
+	if(existsSync(file))
+		unlinkSync(file);
+}
+
 const dl = function(links,basePath,fileTitle,flags,errorhandlerStatus) {
 
     let manager = new DownloadManager(flags);
@@ -48,9 +53,9 @@ const dl = function(links,basePath,fileTitle,flags,errorhandlerStatus) {
                 .then(async res => {
                     if(res.status != '200') {
 
-                        unlinkSync(`${basePath}/${fileTitle}.${linksi.part}`);
-                        console.log(`Got error ${res.status} on ${linksi.link} with number ${linksi.part}`);
-                        console.log('-----------------------------------------------------------');
+                        deletIfExist(`${basePath}/${fileTitle}.${linksi.part}`);
+						cursor.printOneLineError(`Got error ${res.status} on ${linksi.link} with number ${linksi.part}`, prevIndex);
+						prevIndex = -1;
                     
                         errors.push(linksi);
 
@@ -90,8 +95,9 @@ const dl = function(links,basePath,fileTitle,flags,errorhandlerStatus) {
 					}
 					manager.giveReady();
                 }).catch(e => { 
-                    console.log(`An error has occured: ${e.message}`);
-                    console.log('-----------------------------------------------------------');
+					deletIfExist(`${basePath}/${fileTitle}.${linksi.part}`);
+                    printOneLineError(`An error has occured: ${e.message}`, prevIndex);
+                    prevIndex = -1;
                     errors.push(linksi);
                     ++finished;
                     if(finished == tLength)

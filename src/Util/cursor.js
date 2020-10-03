@@ -51,8 +51,16 @@ const printDoneCorrupt = function(linksi, md5, res, prevIndex) {
 
 }
 
+const printOneLineError = function(message, prevIndex) {
+
+	moveCursorRelAndClear(0, prevIndex);
+
+	print(`${message}\n`);
+
+}
 
 module.exports = {
+	printOneLineError: printOneLineError,
 	printDoneCorrupt: printDoneCorrupt,
 	printDoneGood: printDoneGood,
 	printStart: printStart,

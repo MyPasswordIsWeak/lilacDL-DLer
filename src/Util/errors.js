@@ -24,11 +24,13 @@ class ErrorHandler extends EventEmitter {
         if(this.errors.length === 0)
             return this.emit('done');
 
+		console.log('-----------------------------------------------------------');
         console.log(`Starting to fix ${this.errors.length} errors`);
         console.log('Starting downloadChain ...');
         console.log('-----------------------------------------------------------');
 
-        downloadChain(this.errors.length,this.errors,this.basePath,this.fileTitle,this.flags,true)
+		// links,basePath,fileTitle,flags,errorhandlerStatus
+        downloadChain(this.errors, this.basePath, this.fileTitle, this.flags, true)
             .then(errors => {
 
                 if(errors.length === 0)
