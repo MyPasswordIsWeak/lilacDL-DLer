@@ -6,7 +6,7 @@ const parseFlags = function(args) {
 
         // Flags for download
         md5cPart: true,
-        md5cFinal: false,
+        md5cFinal: true,
         joinFiles: true,
         maxSimul: 10,
 
@@ -31,8 +31,8 @@ const parseFlags = function(args) {
         if(args[i] === '--no-part-md5-check' || args[i] === '-npc')
             flags.md5cPart = false;
 
-        if(args[i] === '--final-md5-check' || args[i] === '-fc')
-            flags.md5cFinal = true;
+        if(args[i] === '--no-final-md5-check' || args[i] === '-nfc')
+            flags.md5cFinal = false;
             
         if(args[i] === '--no-file-join' || args[i] === '-nfj')
             flags.joinFiles = false;

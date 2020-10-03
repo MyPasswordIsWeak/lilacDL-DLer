@@ -56,7 +56,7 @@ node . update
 | flag | subcommand | description |
 | ----- | ----- | ----- |
 | --no-part-md5-check OR -npc | download AND fetch | Doesn't check the md5sums of individueal files, not a recommended flag |
-| --final-md5-check OR -fc | download AND fetch | Check the md5sum of the final joined file, dont do this on files bigger than ~500mb |
+| --no-final-md5-check OR -nfc | download AND fetch | Don't check the md5sum of the final joined file |
 | --no-file-join OR -nfj | download AND fetch | Doesn't join the files at the end, use if you are using a different file than just splitted files |
 | --connections=NUMBER | download AND fetch | Set the max amount of connections, default is 10 |
 | --ignore-duplicates OR -id | add | Replaces a repo if duplicates are found |

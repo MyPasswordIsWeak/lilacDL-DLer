@@ -12,6 +12,7 @@ const { readFileSync, mkdirSync, existsSync, appendFileSync, unlinkSync, openSyn
 const { tempPath, downloadsPath, line } = require('./Util/constants.js');
 const downloadChain = require('./Util/downloadChain.js');
 const ErrorHandler = require('./Util/errors.js');
+const md5sum = require('./Util/md5sum.js');
 
 
 module.exports = function(args, flags, cont) {
@@ -100,7 +101,7 @@ module.exports = function(args, flags, cont) {
             const errorHandler = new ErrorHandler(errors,basePath,fileTitle,flags);
         
             // Combine it when the once fires
-            errorHandler.once('done', function() { 
+            errorHandler.once('done', async () => { 
                 
                 console.log('Done downloading!');
 
@@ -125,7 +126,7 @@ module.exports = function(args, flags, cont) {
                     let md5sumAppended = '';
 
                     if(flags.md5cFinal)
-                        md5sumAppended = md5sum(readFileSync(fileLocation,'binary'));
+                        md5sumAppended = await md5sum(fileLocation);
                     else
                         md5sumAppended = md5Comp;
 
