@@ -59,12 +59,12 @@ const printOneLineError = function(message, prevIndex) {
 
 };
 
-const printMergeStatus = function(linksi, files) {
+const printMergeStatus = function(index, part, files) {
 
 	moveCursorRelAndClear(0, -2);
 
-	print(`Appended part ${linksi.part}\n`);
-	print(`Done: ${linksi.index + 1 === files ? 100 : Math.floor(linksi.index / files * 100)}% (${linksi.index + 1}/${files})\n`);
+	print(`Appended part ${part}\n`);
+	print(`Done: ${index + 1 === files ? 100 : Math.floor(index / files * 100)}% (${index + 1}/${files})\n`);
 
 };
 

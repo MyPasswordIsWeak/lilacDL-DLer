@@ -123,7 +123,7 @@ module.exports = function(args, flags, cont) {
 					for(let i = 0; i < Files; ++i) {
 
 						fileStream.write(readFileSync(`${basePath}/${fileTitle}.${links[i].part}`, 'binary'));
-						cursor.printMergeStatus(links[i], Files);
+						cursor.printMergeStatus(i, links[i].part, Files);
 
 					}
 
