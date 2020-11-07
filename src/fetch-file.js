@@ -23,7 +23,9 @@ module.exports = function(args, flags) {
 
 	});
 
-	if(fetchedItems.length === 0) {return console.log(`No such item: ${item}`);}
+	if(fetchedItems.length === 0) {
+		return console.log(`No such item: ${item}`);
+	}
 
 	else if(fetchedItems.length === 1) {
 		fetch(fetchedItems[0].url)

@@ -28,13 +28,21 @@ const parseFlags = function(args) {
 
 		// Normal flags
 
-		if(args[i] === '--no-part-md5-check' || args[i] === '-npc') {flags.md5cPart = false;}
+		if(args[i] === '--no-part-md5-check' || args[i] === '-npc') {
+			flags.md5cPart = false;
+		}
 
-		else if(args[i] === '--no-final-md5-check' || args[i] === '-nfc') {flags.md5cFinal = false;}
+		else if(args[i] === '--no-final-md5-check' || args[i] === '-nfc') {
+			flags.md5cFinal = false;
+		}
 
-		else if(args[i] === '--no-file-join' || args[i] === '-nfj') {flags.joinFiles = false;}
+		else if(args[i] === '--no-file-join' || args[i] === '-nfj') {
+			flags.joinFiles = false;
+		}
 
-		else if(args[i] === '--ignore-duplicates' || args[i] === '-id') {flags.ignoreDupes = true;}
+		else if(args[i] === '--ignore-duplicates' || args[i] === '-id') {
+			flags.ignoreDupes = true;
+		}
 
 		// Regexed flags
 
@@ -48,13 +56,19 @@ const parseFlags = function(args) {
 			if(num >= 0) flags.selectedNum = num;
 		}
 
-		else if(/^--repo=.+$/.test(args[i])) {flags.repo = args[i].replace('--repo=', '');}
+		else if(/^--repo=.+$/.test(args[i])) {
+			flags.repo = args[i].replace('--repo=', '');
+		}
 
 		// Damn long regex
-		else if(/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)$/.test(args[i])) {flags.url = args[i];}
+		else if(/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)$/.test(args[i])) {
+			flags.url = args[i];
+		}
 
 		// Just assume its a path
-		else {flags.path = args[i];}
+		else {
+			flags.path = args[i];
+		}
 
 	}
 
