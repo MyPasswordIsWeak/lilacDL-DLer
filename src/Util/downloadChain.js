@@ -43,14 +43,11 @@ const dl = function(links,basePath,fileTitle,flags,errorhandlerStatus) {
         for(let i = 0; i < tLength; ++i) {
 		
 			let linksi = links[i];
-			linksi.index = i;
-			
+        
             manager.once(i, function() {
 
-			if(linksi.index < flags.maxSimul) {
-				cursor.printStart(linksi, errorhandlerStatus, prevIndex);
-				prevIndex = -5;
-			}
+			cursor.printStart(linksi, errorhandlerStatus, prevIndex);
+			prevIndex = -5;
 			
             download(linksi.link, `${basePath}/${fileTitle}.${linksi.part}`)
                 .then(async res => {
