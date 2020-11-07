@@ -16,42 +16,42 @@ const flags = flagParser(args);
 // Check which action the user wants
 switch(action) {
 
-    // Adds a repo
-    case 'add':
+// Adds a repo
+case 'add':
 
-        index.add(args, flags);
-        break;
+	index.add(args, flags);
+	break;
 
-    // Downloads a local lilacDL file
-    case 'download':
-        
-        index.download(args, flags);
-        break;
+	// Downloads a local lilacDL file
+case 'download':
 
-    // Updates the cache and repo's
-    case 'update':
-        
-        index.update(args, flags);
-        break;
+	index.download(args, flags);
+	break;
 
-    case 'fetch':
+	// Updates the cache and repo's
+case 'update':
 
-        index.fetch(args, flags);
-        break;
+	index.update(args, flags);
+	break;
 
-    case 'help':
+case 'fetch':
 
-        index.help(args, flags);
-        break;
+	index.fetch(args, flags);
+	break;
 
-    case 'list':
+case 'help':
 
-        index.list(args, flags);
-        break;
+	index.help(args, flags);
+	break;
 
-    default:
+case 'list':
 
-        console.log(`Action '${action}' is not a valid action.`);
-        break;
+	index.list(args, flags);
+	break;
+
+default:
+
+	console.log(`Action '${action}' is not a valid action.`);
+	break;
 
 }

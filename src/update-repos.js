@@ -5,48 +5,48 @@ const { post } = require('./add-repo.js');
 const check = require('./Util/check.js');
 const fetch = require('node-fetch');
 
-module.exports = async function(args, flags) {
+module.exports = async function() {
 
-    repos = JSON.parse(readFileSync(reposPath));
+	const repos = JSON.parse(readFileSync(reposPath));
 
-    for(const repo in repos) {
-        
-        let currRepo = repos[repo];
-        check('lr', currRepo);
+	for(const repo in repos) {
 
-        // Only update online repo's
-        if(currRepo.adress !== 'local') {
+		let currRepo = repos[repo];
+		check('lr', currRepo);
 
-            // Get the repo
-            let repo = await fetch(currRepo.adress);
-            repo = await repo.json();
-            
-            console.log(`GOT:${repo.name}`);
+		// Only update online repo's
+		if(currRepo.adress !== 'local') {
 
-            // Update local repo file
-            currRepo = post(repo, { ignoreDupes: true, url: currRepo.adress }, true);
+			// Get the repo
+			let frepo = await fetch(currRepo.adress);
+			frepo = await repo.json();
 
-            // Update the cache
-            let jsonData = new Array();
-            for(i = 0; i < currRepo.repo.length; ++i) {
-                
-                currEntry = currRepo.repo[i];
-                check('re', currEntry);
+			console.log(`GOT:${frepo.name}`);
 
-                jsonData.push(currEntry);
+			// Update local repo file
+			currRepo = post(frepo, { ignoreDupes: true, url: currRepo.adress }, true);
 
-            }
+			// Update the cache
+			const jsonData = new Array();
+			for(let i = 0; i < currRepo.repo.length; ++i) {
 
-            // Write new cache
-            writeFileSync(`${cachePath}/${currRepo.name}.json`, JSON.stringify(jsonData, null, 2), 'utf8');
+				const currEntry = currRepo.repo[i];
+				check('re', currEntry);
 
-            console.log(`Added repo ${currRepo.name} to the cache`);
+				jsonData.push(currEntry);
 
-        }
+			}
 
-    }
+			// Write new cache
+			writeFileSync(`${cachePath}/${currRepo.name}.json`, JSON.stringify(jsonData, null, 2), 'utf8');
 
-    console.log(line);
-    console.log('Done updating repo\'s!');
+			console.log(`Added repo ${currRepo.name} to the cache`);
 
-}
+		}
+
+	}
+
+	console.log(line);
+	console.log('Done updating repo\'s!');
+
+};

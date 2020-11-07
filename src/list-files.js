@@ -6,55 +6,58 @@ const { cachePath } = require('./Util/constants.js');
 
 module.exports = function(args, flags) {
 
-    const possibleSearch = args.shift();
+	const possibleSearch = args.shift();
 
-    if(flags.repo) {
+	if(flags.repo) {
 
-        if(!existsSync(`${cachePath}/${flags.repo}.json`))
-            return console.log(`No such repo: ${flags.repo}`);
+		if(!existsSync(`${cachePath}/${flags.repo}.json`))
+			return console.log(`No such repo: ${flags.repo}`);
 
-        const repo = JSON.parse(readFileSync(`${cachePath}/${flags.repo}.json`));
-        
-        for(let i = 0; i < repo.length; ++i)
-            console.log(`${repo[i].name} --- ${repo[i].desc} --- ${flags.repo} --- ${repo[i].size}`);
+		const repo = JSON.parse(readFileSync(`${cachePath}/${flags.repo}.json`));
 
-    } else if(possibleSearch === 'search') {
-        
-        const search = args.join(' ').split('---')[0].trim().toLowerCase();
+		for(let i = 0; i < repo.length; ++i)
+			console.log(`${repo[i].name} --- ${repo[i].desc} --- ${flags.repo} --- ${repo[i].size}`);
 
-        if(flags.repo) {
-            
-            if(!existsSync(`${cachePath}/${flags.repo}.json`))
-                return console.log(`No such repo: ${flags.repo}`);
+	}
+	else if(possibleSearch === 'search') {
 
-            const repo = JSON.parse(readFileSync(`${cachePath}/${flags.repo}.json`));
+		const search = args.join(' ').split('---')[0].trim().toLowerCase();
 
-            for(let i = 0; i < repo.length; ++i) {
-                if(repo[i].name.toLowerCase().includes(search))
-                    console.log(`${repo[i].name} --- ${repo[i].desc} --- ${flags.repo} --- ${repo[i].size}`);
-            }
+		if(flags.repo) {
 
-        } else {
+			if(!existsSync(`${cachePath}/${flags.repo}.json`))
+				return console.log(`No such repo: ${flags.repo}`);
 
-            readdirSync(`${cachePath}`).forEach(fileName => {
-                const repo = JSON.parse(readFileSync(`${cachePath}/${fileName}`));
-                
-                for(let i = 0; i < repo.length; ++i) {
-                    if(repo[i].name.toLowerCase().includes(search))
-                        console.log(`${repo[i].name} --- ${repo[i].desc} --- ${fileName.replace('.json', '')} --- ${repo[i].size}`);
-                }
-                    
-            });
-        }
-    
-    } else {
+			const repo = JSON.parse(readFileSync(`${cachePath}/${flags.repo}.json`));
 
-        readdirSync(`${cachePath}`).forEach(fileName => {
-            const repo = JSON.parse(readFileSync(`${cachePath}/${fileName}`));
-            
-            for(let i = 0; i < repo.length; ++i)
-                console.log(`${repo[i].name} --- ${repo[i].desc} --- ${fileName.replace('.json', '')} --- ${repo[i].size}`);
+			for(let i = 0; i < repo.length; ++i) {
+				if(repo[i].name.toLowerCase().includes(search))
+					console.log(`${repo[i].name} --- ${repo[i].desc} --- ${flags.repo} --- ${repo[i].size}`);
+			}
 
-        });
-    }
-}
+		}
+		else {
+
+			readdirSync(`${cachePath}`).forEach(fileName => {
+				const repo = JSON.parse(readFileSync(`${cachePath}/${fileName}`));
+
+				for(let i = 0; i < repo.length; ++i) {
+					if(repo[i].name.toLowerCase().includes(search))
+						console.log(`${repo[i].name} --- ${repo[i].desc} --- ${fileName.replace('.json', '')} --- ${repo[i].size}`);
+				}
+
+			});
+		}
+
+	}
+	else {
+
+		readdirSync(`${cachePath}`).forEach(fileName => {
+			const repo = JSON.parse(readFileSync(`${cachePath}/${fileName}`));
+
+			for(let i = 0; i < repo.length; ++i)
+				console.log(`${repo[i].name} --- ${repo[i].desc} --- ${fileName.replace('.json', '')} --- ${repo[i].size}`);
+
+		});
+	}
+};
